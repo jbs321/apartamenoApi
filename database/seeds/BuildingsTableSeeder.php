@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Building;
 
 class BuildingsTableSeeder extends Seeder
 {
@@ -13,8 +14,9 @@ class BuildingsTableSeeder extends Seeder
     {
 	    for($i=0; $i < 50; $i++) {
 		    $faker = Faker\Factory::create();
-		    $address = new \App\Building([
+		    $address = new Building([
 			    'address' => $faker->address(),
+			    'user_id' => random_int(1, 2)
 		    ]);
 
 		    $address->save();

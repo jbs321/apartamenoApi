@@ -43,7 +43,13 @@ class BuildingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+	    $this->validate($request, [
+		    'address' => 'required|max:255',
+		    'user_id' => 'required',
+	    ]);
+
+        $newBuilding = new Building($request->all());
+	    $newBuilding->save();
     }
 
     /**
@@ -80,7 +86,12 @@ class BuildingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+	    $this->validate($request, [
+		    'address' => 'required',
+	    ]);
+
+        $building = Building::find($id);
+	    $building->update($request->all());
     }
 
     /**
