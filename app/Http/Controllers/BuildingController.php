@@ -19,6 +19,7 @@ class BuildingController extends Controller
 
 	    $allBuildings->map(function (Building &$building) {
 		    $building->comments;
+		    $building->imgSrc = "https://maps.googleapis.com/maps/api/streetview?location={$building->address}&key=" . env("APP_GOOGLE_STREET_VIEW_API_KEY") . "&size=600x300";
 	    });
 
         return new JsonResponse($allBuildings);
@@ -53,7 +54,10 @@ class BuildingController extends Controller
      */
     public function show($id)
     {
-        //
+        $building = Building::find($id);
+        $building->comments;
+	    $building->streetView = $this->getStreetViewImage($building);
+        return new JsonResponse($building);
     }
 
     /**
@@ -88,5 +92,15 @@ class BuildingController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+	public function getStreetViewImage( Building $building ) : string {
+    	$width = "600px";
+    	$height = "300px";
+    	$size = "{$width}x{$height}";
+    	$apiKey = env("APP_GOOGLE_STREET_VIEW_API_KEY");
+    	$address = $building->address;
+
+		return "https://maps.googleapis.com/maps/api/streetview?location={$address}&key={$apiKey}&size={$size}";
     }
 }

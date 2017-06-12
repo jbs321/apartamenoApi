@@ -124,6 +124,8 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+	'google_street_view_api_key' => env('APP_GOOGLE_STREET_VIEW_API_KEY', 'XXX-XXX-XXX'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

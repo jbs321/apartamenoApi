@@ -11,25 +11,18 @@ class CommentsTableSeeder extends Seeder {
 	public function run() {
 		$buildings = \App\Building::all();
 
-		$idx = 1;
-		$buildings->each(function(\App\Building $building) use (&$idx) {
-			$faker   = Faker\Factory::create();
-			$newComment = new \App\Comment([
-				'user_id' => $idx,
-				'building_id' => $idx,
-				'description' => $faker->text(200),
-			]);
+		$buildings->each( function ( \App\Building $building ) {
+			for ( $i = 0; $i < random_int( 1, 10 ); $i ++ ) {
+				$faker = Faker\Factory::create();
 
-			$newComment->save();
+				$newComment = new \App\Comment( [
+					'user_id'     => random_int( 1, 50 ),
+					'building_id' => $building->id,
+					'description' => $faker->text( 200 ),
+				] );
 
-			$newComment = new \App\Comment([
-				'user_id' => $idx + 1,
-				'building_id' => $idx,
-				'description' => $faker->text(200),
-			]);
-
-			$newComment->save();
-			$idx++;
-		});
+				$newComment->save();
+			}
+		} );
 	}
 }
