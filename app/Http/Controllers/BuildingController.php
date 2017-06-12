@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Building;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -14,12 +15,13 @@ class BuildingController extends Controller
      */
     public function index()
     {
-        return new JsonResponse([
-            "Rishmond St." => [
-                "City" => "Vancouver",
-                "rate" => 4,
-            ]
-        ]);
+        $allBuildings = Building::all();
+
+	    $allBuildings->map(function (Building &$building) {
+		    $building->comments;
+	    });
+
+        return new JsonResponse($allBuildings);
     }
 
     /**
