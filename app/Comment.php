@@ -13,11 +13,8 @@ class Comment extends Model
 	 */
 	protected $table = 'comments';
 
-	/**
-	 * Get the Building
-	 */
-	public function building()
+	public function user()
 	{
-		return $this->hasOne('App\Building');
+		return $this->belongsTo('App\User');
 	}
 }

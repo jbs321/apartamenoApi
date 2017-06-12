@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Building;
+use App\Comment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BuildingController extends Controller
 {
@@ -18,7 +20,10 @@ class BuildingController extends Controller
         $allBuildings = Building::all();
 
 	    $allBuildings->map(function (Building &$building) {
-		    $building->comments;
+		    $building->user;
+		    $building->comments->map(function(Comment $comment) {
+			    $comment->user;
+		    });
 		    $building->imgSrc = "https://maps.googleapis.com/maps/api/streetview?location={$building->address}&key=" . env("APP_GOOGLE_STREET_VIEW_API_KEY") . "&size=600x300";
 	    });
 
@@ -50,6 +55,10 @@ class BuildingController extends Controller
 
         $newBuilding = new Building($request->all());
 	    $newBuilding->save();
+
+	    return new JsonResponse([
+	    	"status" => "New Building " . $newBuilding->address . "Created"
+	    ], Response::HTTP_OK);
     }
 
     /**
@@ -102,12 +111,17 @@ class BuildingController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    $building = Building::find($id);
+	    $building->delete();
+
+	    return new JsonResponse([
+	    	"building" => $building->address,
+	    ], Response::HTTP_OK);
     }
 
-	public function getStreetViewImage( Building $building ) : string {
-    	$width = "600px";
-    	$height = "300px";
+	public function getStreetViewImage( Building $building, int $width = 600, int $height = 300) : string {
+    	$width = $width . "px";
+    	$height = $height . "px";
     	$size = "{$width}x{$height}";
     	$apiKey = env("APP_GOOGLE_STREET_VIEW_API_KEY");
     	$address = $building->address;

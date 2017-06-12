@@ -17,6 +17,7 @@ class CreateBuildingTable extends Migration
             $table->increments('id')->unique();
 	        $table->integer('user_id');
             $table->string('address');
+	        $table->softDeletes();
             $table->timestamps();
         });
     }
