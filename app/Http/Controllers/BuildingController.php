@@ -72,7 +72,7 @@ class BuildingController extends Controller
         $building = Building::find($id);
         $building->comments;
 	    $building->streetView = $this->getStreetViewImage($building);
-        return new JsonResponse($building);
+        return (new JsonResponse($building))->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');;
     }
 
     /**
@@ -119,7 +119,7 @@ class BuildingController extends Controller
 	    ], Response::HTTP_OK);
     }
 
-	public function getStreetViewImage( Building $building, int $width = 600, int $height = 300) : string {
+	public function getStreetViewImage( Building $building, $width = 600, $height = 300)  {
     	$width = $width . "px";
     	$height = $height . "px";
     	$size = "{$width}x{$height}";
