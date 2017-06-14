@@ -10,6 +10,12 @@ use Illuminate\Http\Response;
 
 class BuildingController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware(\App\Http\Middleware\Cors::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
