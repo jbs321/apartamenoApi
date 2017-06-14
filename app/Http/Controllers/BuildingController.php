@@ -14,6 +14,7 @@ class BuildingController extends Controller
     function __construct()
     {
         $this->middleware(\App\Http\Middleware\Cors::class);
+        //dasdsa
     }
 
     /**
