@@ -12,4 +12,9 @@ class UserRating extends Model
 	 * @var string
 	 */
 	protected $table = 'user_ratings';
+
+    public function ratingType()
+    {
+        return $this->belongsTo('App\RatingType', 'rating_id', 'id');
+    }
 }

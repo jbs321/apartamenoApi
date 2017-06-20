@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Building;
 use App\Comment;
+use App\UserRating;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use League\Flysystem\Exception;
 
 class BuildingController extends Controller
 {
@@ -27,11 +29,35 @@ class BuildingController extends Controller
         $allBuildings = Building::all();
 
 	    $allBuildings->map(function (Building &$building) {
-		    $building->user;
+            $building->userRatings->map(function (UserRating $ur) {
+                $ur->ratingType;
+            });
+
+            $sum = [];
+            foreach ($building->toArray()['user_ratings'] as $rating) {
+                if(isset($sum[$rating['rating_type']['description']])) {
+                    //TODO:: wrong calculation - please change
+                    $sum[$rating['rating_type']['description']] = floor(($sum[$rating['rating_type']['description']] + $rating['rate']) / 2);
+                } else {
+                    $sum[$rating['rating_type']['description']] = $rating['rate'];
+                }
+            }
+
+            $sumArr = [];
+            $count = 0;
+            foreach ($sum as $key => $item) {
+                $sumArr[$count] = ["description" => $key, "value"=> $item];
+                $count++;
+            }
+
+            $building->ratings = $sumArr;
+
 		    $building->comments->map(function(Comment $comment) {
-			    $comment->user;
-		    });
-		    $building->imgSrc = "https://maps.googleapis.com/maps/api/streetview?location={$building->address}&key=" . env("APP_GOOGLE_STREET_VIEW_API_KEY") . "&size=600x300";
+                $comment->user;
+            });
+
+            $building->imgSrc = "https://maps.googleapis.com/maps/api/streetview?location={$building->address}&key=" . env("APP_GOOGLE_STREET_VIEW_API_KEY") . "&size=600x300";
+
 	    });
 
         return new JsonResponse($allBuildings);
@@ -130,6 +156,11 @@ class BuildingController extends Controller
     	$width = $width . "px";
     	$height = $height . "px";
     	$size = "{$width}x{$height}";
+
+        if(!env("APP_GOOGLE_STREET_VIEW_API_KEY")) {
+            throw new Exception('APP_GOOGLE_STREET_VIEW_API_KEY is missing');
+        }
+
     	$apiKey = env("APP_GOOGLE_STREET_VIEW_API_KEY");
     	$address = $building->address;
 

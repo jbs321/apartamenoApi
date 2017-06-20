@@ -23,13 +23,21 @@ class Building extends Model
 	 */
 	public $timestamps = true;
 
-	/**
-	 * Get the comments for the Building.
-	 */
-	public function comments()
-	{
-		return $this->hasMany('App\Comment');
-	}
+    /**
+     * Get the comments for the Building.
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
+    /**
+     * Get the comments for the Building.
+     */
+    public function userRatings()
+    {
+        return $this->hasMany('App\UserRating');
+    }
 
 	/**
 	 * Get the User who create this building post

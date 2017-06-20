@@ -17,10 +17,12 @@ class UserRatingsTableSeeder extends Seeder
 			$id = $user->id;
 			for($i=0; $i < random_int(0,5); $i++) {
 				$newRating = new \App\UserRating([
-					"rating_id" => 1,
+					"rating_id" => random_int(1,3),
+					"building_id" => random_int(1,50),
 					"rate" => random_int(0,5),
 					"user_id" => $id,
 				]);
+
 				$newRating->save();
 			}
 	    });
