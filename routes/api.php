@@ -20,4 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource("buildings", "BuildingController");
 Route::resource("users", "UsersController");
+Route::get("google", "GoogleController@index");
 
