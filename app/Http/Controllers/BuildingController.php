@@ -12,13 +12,6 @@ use League\Flysystem\Exception;
 
 class BuildingController extends Controller
 {
-
-    function __construct()
-    {
-        $this->middleware(\App\Http\Middleware\Cors::class);
-        //dasdsa
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -105,7 +98,7 @@ class BuildingController extends Controller
         $building = Building::find($id);
         $building->comments;
 	    $building->streetView = $this->getStreetViewImage($building);
-        return (new JsonResponse($building))->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');;
+        return new JsonResponse($building);
     }
 
     /**
