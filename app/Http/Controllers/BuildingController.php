@@ -98,7 +98,7 @@ class BuildingController extends Controller
         $building = Building::find($id);
         $building->comments;
 	    $building->streetView = $this->getStreetViewImage($building);
-        return (new JsonResponse($building))->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');;
+        return new JsonResponse($building);
     }
 
     /**
