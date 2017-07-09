@@ -12,13 +12,6 @@ use League\Flysystem\Exception;
 
 class BuildingController extends Controller
 {
-
-    function __construct()
-    {
-        $this->middleware(\App\Http\Middleware\Cors::class);
-        //dasdsa
-    }
-
     /**
      * Display a listing of the resource.
      *
