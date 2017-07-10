@@ -1,19 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Faker\Provider\Image;
-use Illuminate\Http\Response;
+use Mockery\Exception;
 
-class GoogleImagesController extends Controller
-{
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function index() {
-		return new JsonResponse( [ "adasdas" ] );
-	}
+class GoogleImagesController extends Controller {
+	const IMAGES_SIZE_WIDTH = 600;
+	const IMAGES_SIZE_HEIGHT = 300;
 
 	/**
 	 * Display the specified resource.
@@ -23,14 +16,26 @@ class GoogleImagesController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show( $address = "" ) {
-		$path = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=" + "{$address}";
-		$image = file_get_contents($path);
-		$fp  = fopen('image.png', 'w+');
+		$address  = urlencode( $address );
+		$width    = self::IMAGES_SIZE_WIDTH;
+		$height   = self::IMAGES_SIZE_HEIGHT;
+		$base_uri = env( "APP_GOOGLE_STREET_BASE_URI" );
 
-		fputs($fp, $image);
-		fclose($fp);
 
-		header('Content-type:image/jpeg');
+		$path  = "{$base_uri}?size={$width}x{$height}&location={$address}";
+		$image = file_get_contents( $path );
+
+		header( 'Content-type:image/jpeg' );
+
+
+		if(!$image) {
+			return response()->file(public_path() . "/img/not_found.jpg");
+		}
+
+		$fp = fopen( 'image.png', 'w+' );
+
+		fputs( $fp, $image );
+		fclose( $fp );
 		echo $image;
 	}
 }

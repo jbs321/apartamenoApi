@@ -49,7 +49,7 @@ class BuildingController extends Controller
                 $comment->user;
             });
 
-            $building->imgSrc = "https://maps.googleapis.com/maps/api/streetview?location={$building->address}&key=" . env("APP_GOOGLE_STREET_VIEW_API_KEY") . "&size=600x300";
+            $building->imgSrc = "http://localhost/apartamenoApi/public/google-images/{$building->address}";
 
 	    });
 
