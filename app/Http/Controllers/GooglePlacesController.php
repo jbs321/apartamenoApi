@@ -7,15 +7,6 @@ use Illuminate\Http\JsonResponse;
 
 class GooglePlacesController extends Controller {
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function index() {
-		return new JsonResponse( [ "adasdas" ] );
-	}
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int $id

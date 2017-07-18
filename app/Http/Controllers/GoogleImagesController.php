@@ -21,12 +21,10 @@ class GoogleImagesController extends Controller {
 		$height   = self::IMAGES_SIZE_HEIGHT;
 		$base_uri = env( "APP_GOOGLE_STREET_BASE_URI" );
 
-
 		$path  = "{$base_uri}?size={$width}x{$height}&location={$address}";
 		$image = file_get_contents( $path );
 
 		header( 'Content-type:image/jpeg' );
-
 
 		if(!$image) {
 			return response()->file(public_path() . "/img/not_found.jpg");

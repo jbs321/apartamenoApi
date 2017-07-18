@@ -19,7 +19,7 @@ class BuildingController extends Controller
      */
     public function index()
     {
-        $allBuildings = Building::all();
+        $allBuildings = Building::all()->chunk(5)[0];
 
 	    $allBuildings->map(function (Building &$building) {
             $building->userRatings->map(function (UserRating $ur) {
@@ -49,6 +49,7 @@ class BuildingController extends Controller
                 $comment->user;
             });
 
+		    //TODO::replace hardcoded url to uri based with base_uri
             $building->imgSrc = "http://localhost/apartamenoApi/public/google-images/{$building->address}";
 
 	    });
@@ -158,5 +159,10 @@ class BuildingController extends Controller
     	$address = $building->address;
 
 		return "https://maps.googleapis.com/maps/api/streetview?location={$address}&key={$apiKey}&size={$size}";
+    }
+
+
+	public function getAddress($address  ) {
+		dd($address);
     }
 }
