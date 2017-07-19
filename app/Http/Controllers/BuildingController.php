@@ -12,6 +12,8 @@ use League\Flysystem\Exception;
 
 class BuildingController extends Controller
 {
+    const CHUNK_SIZE = 5;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +21,7 @@ class BuildingController extends Controller
      */
     public function index()
     {
-        $allBuildings = Building::all()->chunk(5)[0];
+        $allBuildings = Building::all()->chunk(self::CHUNK_SIZE)[0];
 
 	    $allBuildings->map(function (Building &$building) {
             $building->userRatings->map(function (UserRating $ur) {
@@ -94,11 +96,13 @@ class BuildingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($place_id)
     {
-        $building = Building::find($id);
+        $building = Building::where('google_place_id', $place_id)->firstOrFail();
+
         $building->comments;
 	    $building->streetView = $this->getStreetViewImage($building);
+
         return new JsonResponse($building);
     }
 
@@ -147,8 +151,6 @@ class BuildingController extends Controller
     }
 
 	public function getStreetViewImage( Building $building, $width = 600, $height = 300)  {
-    	$width = $width . "px";
-    	$height = $height . "px";
     	$size = "{$width}x{$height}";
 
         if(!env("APP_GOOGLE_STREET_VIEW_API_KEY")) {

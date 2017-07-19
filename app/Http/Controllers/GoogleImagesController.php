@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Mockery\Exception;
-
 class GoogleImagesController extends Controller {
 	const IMAGES_SIZE_WIDTH = 600;
 	const IMAGES_SIZE_HEIGHT = 300;
