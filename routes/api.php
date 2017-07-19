@@ -21,5 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource("users", "UsersController");
 Route::resource("buildings", "BuildingController", ["middleware" => "cors"]);
 Route::get("google-places/{query}", "GooglePlacesController@show")->middleware('cors');
-Route::get("google-places", "GooglePlacesController@index")->middleware('cors');
-
+Route::post("buildings/{address}", "BuildingController@getAddress", ["middleware" => "cors"]);
