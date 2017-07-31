@@ -35,25 +35,13 @@ class SearchController extends Controller
         /** @var GoogleResult $firstResult */
         $firstResult = $result->getResults()->first();
 
-        $building = Building::where("google_place_id", $firstResult->getPlaceId())->first();
-
-        if($building) {
-            return $building;
-        } else {
-            //TODO:: Change the hardcoded user_id to actual user
-             $newBuilding = new Building([
-                'google_place_id' => $firstResult->getPlaceId(),
-                'user_id'         => 1,
-                'address'         => $firstResult->getFormattedAddress(),
-            ]);
-
-            $newBuilding->save();
-
-            return new JsonResponse($newBuilding);
-        }
+        /** @var  $building */
+        $building = Building::firstOrCreate([
+        	'google_place_id' => $firstResult->getPlaceId(),
+	        'user_id'         => 1,
+	        'address'         => $firstResult->getFormattedAddress(),
+        ]);
 
         return new JsonResponse($building);
     }
-
-
 }
