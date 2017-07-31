@@ -25,3 +25,7 @@ Route::resource("google-images", "GoogleImagesController", ["middleware" => "cor
 Route::resource("comment", "CommentController", ["middleware" => "cors"]);
 Route::resource("google-images", "GoogleImagesController", ["middleware" => "cors"]);
 //Route::post("buildings/{address}", "BuildingController@getAddress", ["middleware" => "cors"]);
+
+Route::group(["middleware" => "cors", "prefix" => "search"], function(){
+    Route::get("query/firstorfail/{query}", "SearchController@findBuildingByAddressQuery");
+});

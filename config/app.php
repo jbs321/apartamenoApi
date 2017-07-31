@@ -125,6 +125,7 @@ return [
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
 	'google_street_view_api_key' => env('APP_GOOGLE_STREET_VIEW_API_KEY', 'XXX-XXX-XXX'),
+    'app_google_places_api_key' => env('APP_GOOGLE_PLACES_API_KEY', 'XXX-XXX-XXX'),
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +165,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
+        App\Providers\GooglePlaceServiceProvider::class,
 
         /*
          * Package Service Providers...
