@@ -166,7 +166,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        App\Providers\GooglePlaceServiceProvider::class,
+        App\Providers\GooglePlacesServiceProvider::class,
 
         /*
          * Package Service Providers...

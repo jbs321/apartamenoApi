@@ -1,11 +1,9 @@
 <?php
 namespace App\Managers;
 
-use App\Exceptions\TechnicalException;
+use app\Traits\GuzzleHttpClientTrait;
 use App\Types\GooglePlacesResponse;
-use GuzzleHttp\Client as Client;
 use Exception;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 /**
  * Class GooglePlacesManager
@@ -13,24 +11,31 @@ use Illuminate\Http\Exceptions\HttpResponseException;
  */
 class GooglePlacesManager
 {
+	use GuzzleHttpClientTrait;
+
     const BASE_URI = "https://maps.googleapis.com/maps/api/place/textsearch";
 
-
-
     protected $appKey;
-    protected $client;
 
-    public function __construct()
+
+	/**
+	 * GooglePlacesManager constructor.
+	 *
+	 * @param string $appKey
+	 *
+	 * @throws Exception
+	 */
+    public function __construct($appKey)
     {
         $this->client = new Client();
-
-        if (!config("app.app_google_places_api_key")) {
-            throw new Exception("Google Places App key is missing");
-        }
-
-        $this->appKey = config("app.app_google_places_api_key");
+        $this->appKey = $appKey;
     }
 
+	/**
+	 * @param string $query
+	 *
+	 * @return GooglePlacesResponse
+	 */
     public function findAddressByQuery(string $query)
     {
         $fullQuery = $this->makeApiQuery($query);
@@ -45,9 +50,17 @@ class GooglePlacesManager
         return $data;
     }
 
+	/**
+	 * @param string $query
+	 * @param string $returnType
+	 *
+	 * @return string
+	 */
     public function makeApiQuery($query = "", $returnType = GooglePlacesResponse::KEY__RESPONSE_TYPE_JSON)
     {
         $query = join("/", [self::BASE_URI, $returnType]) . "?key={$this->appKey}&query={$query}";
         return $query;
     }
+
+
 }
