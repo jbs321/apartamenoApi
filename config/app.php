@@ -166,8 +166,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        App\Providers\GooglePlacesServiceProvider::class,
-
         /*
          * Package Service Providers...
          */
@@ -181,6 +179,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+	    //App Custom
+	    \Google\Providers\GoogleServiceProvider::class,
 
     ],
 
@@ -231,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+	    //App's Facades
+        'Google' => \Google\Facades\Google::class
     ],
 
 ];

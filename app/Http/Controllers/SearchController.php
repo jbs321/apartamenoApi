@@ -4,31 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Building;
 use App\Exceptions\NotFoundException;
-use App\Managers\GooglePlacesManager;
-use App\Types\GooglePlacesResponse;
-use App\Types\GoogleResult;
-use Exception;
+use Google\Facades\Google;
+use Google\Types\GooglePlacesResponse;
 use Illuminate\Http\JsonResponse;
 
 class SearchController extends Controller
 {
-    /** @var GooglePlacesManager  $gp*/
-    protected $gp;
-
-    public function __construct(GooglePlacesManager $gp) {
-
-        if(!isset($gp)) {
-            throw new Exception("Google Places Instance isn't set");
-        }
-
-        $this->gp = $gp;
-    }
-
     public function findBuildingByAddressQuery($query)
     {
-        $result = $this->gp->findAddressByQuery($query);
+        $result = Google::findAddressByQuery($query);
 
-        if($result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK) {
+        if( $result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK) {
             throw new NotFoundException();
         }
 
