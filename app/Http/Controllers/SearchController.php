@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Building;
 use App\Exceptions\NotFoundException;
-use GooglePlacesAPI\Facades\GooglePlacesApi;
-use GooglePlacesAPI\Types\GooglePlacesResponse;
+use Google\Facades\Google;
+use Google\Types\GooglePlacesResponse;
 use Illuminate\Http\JsonResponse;
 
 class SearchController extends Controller
 {
     public function findBuildingByAddressQuery($query)
     {
-        $result = GooglePlacesApi::findAddressByQuery($query);
+        $result = Google::findAddressByQuery($query);
 
-        if($result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK) {
+        if( $result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK) {
             throw new NotFoundException();
         }
 

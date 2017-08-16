@@ -180,7 +180,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        GooglePlacesAPI\Providers\GooglePlacesServiceProvider::class,
+	    //App Custom
+	    \Google\Providers\GoogleServiceProvider::class,
+
     ],
 
     /*
@@ -229,8 +231,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'GooglePlacesAPI' => GooglePlacesAPI\Facades\GooglePlacesApi::class
 
+	    //App's Facades
+        'Google' => \Google\Facades\Google::class
     ],
 
 ];

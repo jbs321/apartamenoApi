@@ -9,7 +9,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "jbs321/googleplacesapi": "@dev"
+        "jbs321/google-support-laravel": "@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
