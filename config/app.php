@@ -182,7 +182,7 @@ return [
 
 	    //App Custom
 	    \Google\Providers\GoogleServiceProvider::class,
-
+	    Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*

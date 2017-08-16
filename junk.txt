@@ -1,5 +1,0 @@
-testing the composer install command
-remove command
-test new deployment code
-test1
-test2

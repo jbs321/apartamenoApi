@@ -13,19 +13,18 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
+//TODO::add cors support only for dedicated clients
 
-Route::resource("users", "UserController");
-Route::resource("buildings", "BuildingController", ["middleware" => "cors"]);
-Route::resource("google-places", "GooglePlacesController", ["middleware" => "cors"]);
-Route::resource("google-images", "GoogleImagesController", ["middleware" => "cors"]);
-Route::resource("comment", "CommentController", ["middleware" => "cors"]);
-Route::resource("google-images", "GoogleImagesController", ["middleware" => "cors"]);
-//Route::post("buildings/{address}", "BuildingController@getAddress", ["middleware" => "cors"]);
+Route::group( [ "middleware" => "cors" ], function () {
+	Route::resource( "buildings", "BuildingController" );
+	Route::resource( "google-places", "GooglePlacesController" );
+	Route::resource( "google-images", "GoogleImagesController" );
 
-Route::group(["middleware" => "cors", "prefix" => "search"], function(){
-    Route::get("query/firstorfail/{query}", "SearchController@findBuildingByAddressQuery");
-});
+	Route::get( "search/query/firstorfail/{query}", "SearchController@findBuildingByAddressQuery" );
+
+	Route::group( [ "middleware" => "auth:api" ], function () {
+		Route::resource( "users", "UserController" );
+		Route::resource( "comment", "CommentController" );
+	} );
+} );
