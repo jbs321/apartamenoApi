@@ -124,6 +124,9 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+	'google_street_view_api_key' => env('APP_GOOGLE_STREET_VIEW_API_KEY', 'XXX-XXX-XXX'),
+    'app_google_places_api_key' => env('APP_GOOGLE_PLACES_API_KEY', 'XXX-XXX-XXX'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -177,6 +180,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+	    //App Custom
+	    \Google\Providers\GoogleServiceProvider::class,
+
     ],
 
     /*
@@ -226,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+	    //App's Facades
+        'Google' => \Google\Facades\Google::class
     ],
 
 ];
