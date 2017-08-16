@@ -12,7 +12,7 @@ class Building extends Model
 	/**
 	 * The table associated with the model.
 	 *
-	 * @var string123
+	 * @var string
 	 */
 	protected $table = 'buildings';
 
