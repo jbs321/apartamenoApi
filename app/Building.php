@@ -49,6 +49,28 @@ class Building extends Model
     }
 
 	/**
+	 * Sum Up the Ratings for Building and return array
+	 * @return array
+	 */
+	public function findRatingsByBuilding() {
+		$ratingTypes = RatingType::all();
+		$ratings  = [];
+		foreach ($ratingTypes as $ratingType) {
+			$ratingTypeId = $ratingType->id;
+			$ratingSum = UserRating::all()
+			                     ->where('rating_id' , $ratingTypeId)
+			                     ->where('building_id' , $this->getKey('id'))
+			                     ->sum(function ($userRating) {
+			                     	return $userRating->rate;
+			                     });
+
+			$ratings[] = ['description' => $ratingType->description, 'sum' => $ratingSum, 'rating_id' => $ratingTypeId];
+		}
+
+		return $ratings;
+    }
+
+	/**
 	 * Get the User who create this building post
 	 */
 	public function user()
