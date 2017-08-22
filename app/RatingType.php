@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RatingType extends Model
 {
+	const KEY_DESCRIPTION = "description";
+
 	/**
 	 * The table associated with the model.
 	 *

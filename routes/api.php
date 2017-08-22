@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //TODO::add cors support only for dedicated clients
-
-Route::group( [ "middleware" => "cors" ], function () {
+Route::group( [ "middleware" => ["cors"] ], function () {
 	Route::resource( "buildings", "BuildingController" );
 	Route::resource( "google-places", "GooglePlacesController" );
 	Route::resource( "google-images", "GoogleImagesController" );
@@ -27,4 +26,9 @@ Route::group( [ "middleware" => "cors" ], function () {
 		Route::resource( "users", "UserController" );
 		Route::resource( "comment", "CommentController" );
 	} );
+
+	Route::get( "building/{building}/rating", "RatingController@show" );
+	Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
+	Route::post( "building/{building}/rating", "RatingController@store" );
+	Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
 } );
