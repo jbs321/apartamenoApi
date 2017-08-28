@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use GuzzleHttp\Client;
-use Illuminate\Http\JsonResponse;
+use Google\Facades\Google;
 
 class GoogleController extends Controller
 {
@@ -12,6 +11,7 @@ class GoogleController extends Controller
 	}
 
 	public function showStaticMapImage($address = "") {
-
+		$imageBinary = Google::staticMaps()->findImageByAddress($address);
+		return response($imageBinary)->header('Content-type', 'image/jpeg');
 	}
 }
