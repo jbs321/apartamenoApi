@@ -6,6 +6,7 @@ use App\Building;
 use App\Http\Requests\StoreRatingPost;
 use App\RatingType;
 use App\UserRating;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
 class RatingController extends Controller {
@@ -32,7 +33,7 @@ class RatingController extends Controller {
 		$userRating = new UserRating( $request->all() );
 		$isSaved    = $userRating->save();
 
-		return $isSaved;
+		return new JsonResponse($isSaved);
 	}
 
 	/**
@@ -69,12 +70,13 @@ class RatingController extends Controller {
 	 *
 	 * @param StoreRatingPost $request
 	 * @param UserRating $userRating
+	 * @param Building $building
 	 *
-	 * @return bool
+	 * @return JsonResponse
 	 */
-	public function update( StoreRatingPost $request, UserRating $userRating ): bool {
+	public function update( StoreRatingPost $request, Building $building,  UserRating $userRating ) {
 		$isUpdated = $userRating->update( [ UserRating::KEY_RATE => $request->rate ] );
-		return $isUpdated;
+		return new JsonResponse($isUpdated);
 	}
 
 	/**
@@ -86,6 +88,6 @@ class RatingController extends Controller {
 	 */
 	public function destroy( UserRating $userRating ): bool {
 		$isDeleted = $userRating->delete();
-		return $isDeleted;
+		return new JsonResponse($isDeleted);
 	}
 }
