@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Building;
 use App\Exceptions\NotFoundException;
 use Google\Facades\Google;
+use Google\Managers\GooglePlacesManager;
 use Google\Types\GooglePlacesResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
 	public function findBuildingByAddressQuery($query)
 	{
-		$result = Google::findAddressByQuery($query);
+		$result = Google::places()->findAddressByQuery($query);
 
 		if( $result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK) {
 			throw new NotFoundException();
@@ -24,7 +26,7 @@ class SearchController extends Controller
 		/** @var Building $building */
 		$building = Building::firstOrCreate([
 			'google_place_id' => $firstResult->getPlaceId(),
-			'user_id'         => 1,
+			'user_id'         => is_null(Auth::id()) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
 			'address'         => $firstResult->getFormattedAddress(),
 		]);
 

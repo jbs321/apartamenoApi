@@ -15,13 +15,39 @@ use Illuminate\Support\Facades\Route;
 */
 
 //TODO::add cors support only for dedicated clients
-Route::group( [ "middleware" => ["cors"] ], function () {
-	Route::resource( "buildings", "BuildingController" );
-	Route::resource( "google-places", "GooglePlacesController" );
-	Route::resource( "google-images", "GoogleImagesController" );
 
-	Route::get( "search/query/firstorfail/{query}", "SearchController@findBuildingByAddressQuery" );
 
+//Street View
+Route::get( "street-view", "GoogleController@showStreetViewImage" );
+
+//Street View
+Route::get( "static-map", "GoogleController@showStaticMapImage" );
+
+//Building
+Route::resource( "buildings", "BuildingController" );
+
+//Building - Google
+Route::get( "search/query/firstorfail/{query}", "SearchController@findBuildingByAddressQuery" );
+
+//rating
+Route::get( "building/{building}/rating", "RatingController@show" );
+Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
+Route::post( "building/{building}/rating", "RatingController@store" );
+Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
+
+//Route::get('test', function() {
+//	$imageBinary = \Google\Facades\Google::staticMaps()->findImageByAddress("Bat yam eli cohen 22");
+//	return response($imageBinary)->header('Content-type', 'image/jpeg');
+//});
+
+
+Route::group( [ "middleware" => "auth:api" ], function () {
+	Route::resource( "users", "UserController" );
+	Route::resource( "comment", "CommentController" );
+	Route::post( 'getProfile', function () {
+		return \Illuminate\Support\Facades\Auth::user();
+	} );
+} );
 	Route::group( [ "middleware" => "auth:api" ], function () {
 		Route::resource( "users", "UserController" );
 		Route::resource( "comment", "CommentController" );
@@ -33,7 +59,3 @@ Route::group( [ "middleware" => ["cors"] ], function () {
         Route::post( "building/{building}/rating", "RatingController@store" );
         Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
 	} );
-
-	Route::get( "building/{building}/rating", "RatingController@show" );
-
-} );

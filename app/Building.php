@@ -29,7 +29,7 @@ class Building extends Model
      *
      * @var array
      */
-    protected $fillable = ['rating_id', 'building_id', 'rate', 'user_id'];
+    protected $fillable = ['address', 'user_id', 'google_place_id'];
 
 
 	protected $primaryKey = 'id';

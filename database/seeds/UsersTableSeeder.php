@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
+	const VISITOR_ID = 2;
+
     /**
      * Run the database seeds.
      *
@@ -19,9 +21,9 @@ class UsersTableSeeder extends Seeder
 	    ]))->save();
 
 	    (new \App\User([
-		    'first_name' => "Guy",
-		    'last_name' => "Viner",
-		    'email' => "Gay@Viner.com",
+		    'first_name' => "Visitor",
+		    'last_name' => "X",
+		    'email' => "a@a.com",
 		    'password' => bcrypt('Aa123456'),
 	    ]))->save();
 
