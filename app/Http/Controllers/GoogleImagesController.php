@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 class GoogleImagesController extends Controller {
-	const IMAGES_SIZE_WIDTH = 600;
+	const IMAGES_SIZE_WIDTH = 1600;
 	const IMAGES_SIZE_HEIGHT = 300;
 
 	/**

@@ -25,10 +25,15 @@ Route::group( [ "middleware" => ["cors"] ], function () {
 	Route::group( [ "middleware" => "auth:api" ], function () {
 		Route::resource( "users", "UserController" );
 		Route::resource( "comment", "CommentController" );
+		Route::post( "getProfile", function() {
+		    return new \Illuminate\Http\JsonResponse(\Illuminate\Support\Facades\Auth::user());
+        });
+
+        Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
+        Route::post( "building/{building}/rating", "RatingController@store" );
+        Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
 	} );
 
 	Route::get( "building/{building}/rating", "RatingController@show" );
-	Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
-	Route::post( "building/{building}/rating", "RatingController@store" );
-	Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
+
 } );

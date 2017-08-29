@@ -6,7 +6,11 @@ use App\Building;
 use App\Http\Requests\StoreRatingPost;
 use App\RatingType;
 use App\UserRating;
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Psy\Util\Json;
 
 class RatingController extends Controller {
 
@@ -72,9 +76,20 @@ class RatingController extends Controller {
 	 *
 	 * @return bool
 	 */
-	public function update( StoreRatingPost $request, UserRating $userRating ): bool {
-		$isUpdated = $userRating->update( [ UserRating::KEY_RATE => $request->rate ] );
-		return $isUpdated;
+	public function update( StoreRatingPost $request, Building $building ) {
+	    $userRating = UserRating::where(['building_id' => $building->id, 'rating_id' => $request->get('rating_id'), 'user_id' => Auth::id()]);
+
+        $requestArr = $request->all();
+        $requestArr['user_id'] = Auth::id();
+
+        if(!$userRating->exists()) {
+            $userRating = new UserRating($requestArr);
+            $isUpdated  = $userRating->save();
+        } else {
+            $isUpdated = $userRating->update( [ UserRating::KEY_RATE => $request->rate ] );
+        }
+
+		return new JsonResponse($isUpdated);
 	}
 
 	/**

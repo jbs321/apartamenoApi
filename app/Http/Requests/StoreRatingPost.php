@@ -31,7 +31,7 @@ class StoreRatingPost extends FormRequest {
 			],
 			'user_id'     => [
 				'bail',
-				'required',
+//				'required',
 				'exists:users,id'
 			],
 			'rating_id'   => [
