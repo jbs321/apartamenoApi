@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Building;
 use App\Exceptions\NotFoundException;
 use Google\Facades\Google;
-use Google\Managers\GooglePlacesManager;
 use Google\Types\GooglePlacesResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
