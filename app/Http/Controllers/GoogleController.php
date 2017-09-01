@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Google\Facades\Google;
 
 class GoogleController extends Controller
