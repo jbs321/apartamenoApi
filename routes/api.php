@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 
 //Street View
-Route::get( "street-view", "GoogleController@showStreetViewImage" );
+Route::get( "street-view/{address}/{width?}/{height?}", "GoogleController@showStreetViewImage" );
 
 //Street View
-Route::get( "static-map", "GoogleController@showStaticMapImage" );
+Route::get( "static-map/{address}/{width?}/{height?}", "GoogleController@showStaticMapImage" );
 
 //Building
 Route::resource( "buildings", "BuildingController" );

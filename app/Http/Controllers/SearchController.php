@@ -23,6 +23,23 @@ class SearchController extends Controller
 		/** @var GoogleResult $firstResult */
 		$firstResult = $result->getResults()->first();
 
+        $building = Building::where([
+            'google_place_id' => $firstResult->getPlaceId(),
+        ])->first();
+
+        if($building->exists()) {
+            $building->update([
+                'user_id'         => is_null(Auth::id()) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
+                'address'         => $firstResult->getFormattedAddress(),
+            ]);
+        } else {
+            $building = new Building([
+                'user_id'         => is_null(Auth::id()) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
+                'address'         => $firstResult->getFormattedAddress(),
+                'google_place_id' => $firstResult->getPlaceId(),
+            ]);
+        }
+
 		/** @var Building $building */
 		$building = Building::firstOrCreate([
 			'google_place_id' => $firstResult->getPlaceId(),
