@@ -60,6 +60,4 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 } );
 
 
-Route::post('register', function(Request $request) {
-	return new \Illuminate\Http\JsonResponse([$request->all()]);
-});
+Route::post('register', 'FormController@register');

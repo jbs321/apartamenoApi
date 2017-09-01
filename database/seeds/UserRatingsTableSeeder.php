@@ -12,19 +12,20 @@ class UserRatingsTableSeeder extends Seeder
     public function run()
     {
 		$users = \App\User::all();
+        $ratingTypes = \App\RatingType::all();
 
-	    $users->each(function (\App\User $user) {
-			$id = $user->id;
-			for($i=0; $i < random_int(0,5); $i++) {
-				$newRating = new \App\UserRating([
-					"rating_id" => random_int(1,3),
-					"building_id" => random_int(1,50),
-					"rate" => random_int(0,5),
-					"user_id" => $id,
-				]);
+	    $users->each(function (\App\User $user) use ($ratingTypes) {
+            $userId = $user->id;
+            $ratingTypes->each(function($ratingType) use ($userId) {
+                $newRating = new \App\UserRating([
+                    "rating_id" => $ratingType->id,
+                    "building_id" => random_int(1,40),
+                    "rate" => random_int(0,5),
+                    "user_id" => $userId,
+                ]);
 
-				$newRating->save();
-			}
+                $newRating->save();
+            });
 	    });
     }
 }

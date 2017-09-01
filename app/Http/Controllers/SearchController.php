@@ -26,7 +26,7 @@ class SearchController extends Controller
             'google_place_id' => $firstResult->getPlaceId(),
         ])->first();
 
-        if($building->exists()) {
+        if(!is_null($building)) {
             $building->update([
                 'user_id'         => is_null(Auth::id()) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
                 'address'         => $firstResult->getFormattedAddress(),
