@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -34,14 +36,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if($exception instanceof NotFoundException) {
-            return new JsonResponse(["message" => $exception->getMessage()], 400);
-        }
-
-        if($exception instanceof TechnicalException) {
-            abort(500);
-        }
-
         parent::report($exception);
     }
 
@@ -54,7 +48,38 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+
+    	//400+
+	    if($exception instanceof \InvalidArgumentException) {
+		    return new JsonResponse(
+			    [
+				    "code" => 400,
+				    "message" => $exception->getMessage()
+			    ], 400);
+	    }
+
+	    if($exception instanceof NotFoundException) {
+		    return new JsonResponse([
+			    "code" => 404,
+		    	"message" => "<a href='mailto:jacob@balabnaov.ca'>admin</a>"], 404);
+	    }
+
+	    if($exception instanceof MethodNotAllowedHttpException) {
+		    return new JsonResponse([
+			    "code" => 405,
+			    "message" => "Method not allowed"
+		    ], 405);
+	    }
+
+	    //500+
+	    if($exception instanceof TechnicalException) {
+		    new JsonResponse([
+		    	"code"    => 500,
+		    	"message" => "Technical problem, Please contact the <a href='mailto:jacob@balabnaov.ca'>admin</a>"
+		    ], 500);
+	    }
+
+	    return parent::render($request, $exception);
     }
 
     /**

@@ -20,6 +20,8 @@ class CreateUserRatingsTable extends Migration
             $table->integer('rate');
             $table->integer('user_id');
             $table->timestamps();
+
+	        $table->unique(['user_id', 'rating_id', 'building_id']);
         });
     }
 

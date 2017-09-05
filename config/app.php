@@ -124,9 +124,6 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
-	'google_street_view_api_key' => env('APP_GOOGLE_STREET_VIEW_API_KEY', 'XXX-XXX-XXX'),
-    'app_google_places_api_key' => env('APP_GOOGLE_PLACES_API_KEY', 'XXX-XXX-XXX'),
-
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -181,8 +178,12 @@ return [
         App\Providers\RouteServiceProvider::class,
 
 	    //App Custom
-	    \Google\Providers\GoogleServiceProvider::class,
 	    Laravel\Passport\PassportServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
+
+	    //Google
+	    \Google\Providers\GoogleServiceProvider::class,
+	    Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -233,7 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
 	    //App's Facades
-        'Google' => \Google\Facades\Google::class
+        'Google' => \Google\Facades\Google::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

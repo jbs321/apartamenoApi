@@ -29,8 +29,10 @@ class Building extends Model
      *
      * @var array
      */
-    protected $fillable = ['google_place_id', 'user_id', 'address'];
+    protected $fillable = ['address', 'user_id', 'google_place_id'];
 
+
+	protected $primaryKey = 'id';
 
     /**
      * Get the comments for the Building.

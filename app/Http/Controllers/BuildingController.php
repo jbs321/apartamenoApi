@@ -12,7 +12,7 @@ use League\Flysystem\Exception;
 
 class BuildingController extends Controller
 {
-    const CHUNK_SIZE = 5;
+    const CHUNK_SIZE = 15;
 
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class BuildingController extends Controller
      */
     public function index()
     {
-        $allBuildings = Building::all()->chunk(self::CHUNK_SIZE)[0];
+        $allBuildings = Building::where('id', '!=','0')->orderBy('id','desc')->take(10)->get();
 
 	    $allBuildings->map(function (Building &$building) {
             $building->userRatings->map(function (UserRating $ur) {

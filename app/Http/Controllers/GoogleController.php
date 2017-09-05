@@ -1,20 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use GuzzleHttp\Client;
-use Illuminate\Http\JsonResponse;
+
+use Google\Facades\Google;
 
 class GoogleController extends Controller
 {
-	public function index() {
-		$client = new Client(); //GuzzleHttp\Client
+	public function showStreetViewImage($address = "",  $width = 640, $height = 250) {
+		$imageBinary = Google::streetView()->findImageByAddress($address, $width, $height);
+		return response($imageBinary)->header('Content-type', 'image/jpeg');
+	}
 
-		$response = $client->get('https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyC8MNTUqpiblJMTFaAhndAL_nVS8axPEqc&query=vancouver');
-
-		$data = $response->getBody();
-		$data = json_decode($data, true);
-
-		return new JsonResponse($data);
-
+	public function showStaticMapImage($address = "", $width = 640, $height = 640) {
+		$imageBinary = Google::staticMaps()->findImageByAddress($address, $width, $height);
+		return response($imageBinary)->header('Content-type', 'image/jpeg');
 	}
 }
