@@ -35,4 +35,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+
+	//Socialite Keys
+    'facebook' => [
+	    'client_id' => env('FACEBOOK_CLIENT_ID'),
+	    'client_secret' => env('FACEBOOK_SECRET'),
+	    'redirect' => env('FACEBOOK_CALLBACK'),
+    ],
 ];
