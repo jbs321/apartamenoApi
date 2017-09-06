@@ -35,27 +35,4 @@ class LoginController extends Controller {
 	public function __construct() {
 		$this->middleware( 'guest' )->except( 'logout' );
 	}
-
-	/**
-	 * Redirect the user to the GitHub authentication page.
-	 *
-	 * @return Response
-	 */
-	public function redirectToProvider( $provider ) {
-		if ( ! $provider ) {
-			throw new \Exception( "Provider isn't set" );
-		}
-
-		return Socialite::with( $provider )->redirect();
-	}
-
-	/**
-	 * Obtain the user information from GitHub.
-	 * @TODO:: add logic to save response from provider
-	 * @return Response
-	 */
-	public function handleProviderCallback( $provider ) {
-		$user = Socialite::driver( $provider )->stateless()->user();
-		dd( $user );
-	}
 }

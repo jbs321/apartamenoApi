@@ -183,7 +183,6 @@ return [
 
 	    //Google
 	    \Google\Providers\GoogleServiceProvider::class,
-	    Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -235,7 +234,6 @@ return [
 
 	    //App's Facades
         'Google' => \Google\Facades\Google::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
