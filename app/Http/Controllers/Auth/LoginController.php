@@ -71,20 +71,28 @@ class LoginController extends Controller {
 		}
 
 
-		$newUser = new User( [
-			'email'       => $email,
-			'avatar'      => $avatar,
-			'password'    => bcrypt( 'Aa123456' ),
-			'last_name'   => $lastName,
-			'first_name'  => $firstName,
-			'provider_id' => $id,
-		] );
+		if(User::where('email', $email)->exists()) {
+			$newUser = User::where('email', $email);
+			$newUser->update([
+				'avatar'      => $avatar,
+				'last_name'   => $lastName,
+				'first_name'  => $firstName,
+			]);
+		} else {
+			$newUser = new User( [
+				'email'       => $email,
+				'avatar'      => $avatar,
+				'password'    => bcrypt( 'Aa123456' ),
+				'last_name'   => $lastName,
+				'first_name'  => $firstName,
+				'provider_id' => $id,
+			] );
 
-		$newUser->save();
-		$roleRegularUser = Role::where( 'name', 'user' )->first();
+			$newUser->save();
+			$roleRegularUser = Role::where( 'name', 'user' )->first();
+			$newUser->roles()->attach( $roleRegularUser );
+		}
 
-		$newUser->roles()->attach( $roleRegularUser );
-		$token = $newUser->createToken('profile')->accessToken;
-		dd($token);
+		return redirect('home');
 	}
 }
