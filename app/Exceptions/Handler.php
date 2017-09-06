@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 
@@ -48,13 +49,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
-    	//400+
+	    //400+
 	    if($exception instanceof \InvalidArgumentException) {
 		    return new JsonResponse(
 			    [
 				    "code" => 400,
 				    "message" => $exception->getMessage()
+			    ], 400);
+	    }
+
+	    //400+
+	    if($exception instanceof ValidationException) {
+		    return new JsonResponse(
+			    [
+				    "code" => 400,
+				    "message" => $exception->validator->errors()
 			    ], 400);
 	    }
 

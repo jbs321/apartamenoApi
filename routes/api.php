@@ -27,19 +27,14 @@ Route::get( "static-map/{address}/{width?}/{height?}", "GoogleController@showSta
 Route::resource( "buildings", "BuildingController" );
 
 //Building - Google
-Route::get( "search/query/firstorfail/{query}", "SearchController@findBuildingByAddressQuery" );
+Route::get( "search/query/firstorfail/{query}", "SearchController@findAndCreateBuilding" );
+Route::get( "search/query/{query}", "SearchController@findBuilding" );
 
 //rating
 Route::get( "building/{building}/rating", "RatingController@show" );
 Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
 Route::post( "building/{building}/rating", "RatingController@store" );
 Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
-
-//Route::get('test', function() {
-//	$imageBinary = \Google\Facades\Google::staticMaps()->findImageByAddress("Bat yam eli cohen 22");
-//	return response($imageBinary)->header('Content-type', 'image/jpeg');
-//});
-
 
 Route::group( [ "middleware" => "auth:api" ], function () {
 	Route::resource( "users", "UserController" );
@@ -61,3 +56,4 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 
 
 Route::post('register', 'FormController@register');
+Route::post('login', 'FormController@login');
