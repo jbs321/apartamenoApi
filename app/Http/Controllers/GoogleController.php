@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotFoundException;
 use Google\Facades\Google;
+use Google\Types\GooglePlacesResponse;
+use Illuminate\Http\JsonResponse;
 
 class GoogleController extends Controller
 {
@@ -14,5 +17,17 @@ class GoogleController extends Controller
 	public function showStaticMapImage($address = "", $width = 640, $height = 640) {
 		$imageBinary = Google::staticMaps()->findImageByAddress($address, $width, $height);
 		return response($imageBinary)->header('Content-type', 'image/jpeg');
+	}
+
+	public function searchPlace( $query ) {
+		$result = Google::places()->findAddressByQuery( $query );
+
+		if ( $result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK ) {
+			throw new NotFoundException();
+		}
+
+		$results = $result->toArray();
+
+		return $results;
 	}
 }

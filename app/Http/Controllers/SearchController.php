@@ -11,19 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller {
 
-	public function findBuilding( $query ) {
-		$result = Google::places()->findAddressByQuery( $query );
-
-		if ( $result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK ) {
-			throw new NotFoundException();
-		}
-
-		/** @var GoogleResult $firstResult */
-		$results = $result->getResults();
-
-		return new JsonResponse($results);
-	}
-
 	public function findAndCreateBuilding( $query ) {
 		$result = Google::places()->findAddressByQuery( $query );
 

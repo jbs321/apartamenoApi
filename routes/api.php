@@ -1,8 +1,7 @@
 <?php
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,12 +22,18 @@ Route::get( "street-view/{address}/{width?}/{height?}", "GoogleController@showSt
 //Street View
 Route::get( "static-map/{address}/{width?}/{height?}", "GoogleController@showStaticMapImage" );
 
-//Building
-Route::resource( "buildings", "BuildingController" );
+//Places
+Route::get( "places/search/{query}", "GoogleController@searchPlace" );
+
 
 //Building - Google
 Route::get( "search/query/firstorfail/{query}", "SearchController@findAndCreateBuilding" );
-Route::get( "search/query/{query}", "SearchController@findBuilding" );
+
+
+//Building
+Route::resource( "buildings", "BuildingController" );
+
+
 
 //rating
 Route::get( "building/{building}/rating", "RatingController@show" );
@@ -40,7 +45,7 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 	Route::resource( "users", "UserController" );
 	Route::resource( "comment", "CommentController" );
 	Route::post( 'getProfile', function () {
-		return \Illuminate\Support\Facades\Auth::user();
+		return Auth::user();
 	} );
 
 	Route::resource( "users", "UserController" );
