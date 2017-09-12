@@ -34,29 +34,32 @@ Route::get( "search/query/firstorfail/{query}", "SearchController@findAndCreateB
 Route::resource( "buildings", "BuildingController" );
 
 
+Route::group( [ "prefix" => "building/{building}" ], function () {
+	//rating
+	Route::get( "rating", "RatingController@show" );
+	Route::delete( "rating/{userRating}", "RatingController@destroy" );
+	Route::post( "rating", "RatingController@store" );
+	Route::put( "rating/{userRating}", "RatingController@update" );
 
-//rating
-Route::get( "building/{building}/rating", "RatingController@show" );
-Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
-Route::post( "building/{building}/rating", "RatingController@store" );
-Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
+	//comment
+	Route::get( "comment", "CommentController@show" );
+});
+
+
+
 
 Route::group( [ "middleware" => "auth:api" ], function () {
-	Route::resource( "users", "UserController" );
-	Route::resource( "comment", "CommentController" );
 	Route::post( 'getProfile', function () {
 		return Auth::user();
-	} );
+	});
 
-	Route::resource( "users", "UserController" );
-	Route::resource( "comment", "CommentController" );
-	Route::post( "getProfile", function () {
-		return new \Illuminate\Http\JsonResponse( \Illuminate\Support\Facades\Auth::user() );
-	} );
+	Route::group( [ "prefix" => "building/{building}" ], function () {
+		Route::put( "rating/{userRating}", "RatingController@update" );
+		Route::post( "rating", "RatingController@store" );
+		Route::delete( "rating/{userRating}", "RatingController@destroy" );
 
-	Route::delete( "building/{building}/rating/{userRating}", "RatingController@destroy" );
-	Route::post( "building/{building}/rating", "RatingController@store" );
-	Route::put( "building/{building}/rating/{userRating}", "RatingController@update" );
+		Route::post( "comment", "CommentController@store" );
+	});
 } );
 
 

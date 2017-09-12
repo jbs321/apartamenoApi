@@ -2,63 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Building;
 use App\Comment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+	/**
+	 * @param Request $request
+	 * @param Building $building
+	 *
+	 * @return JsonResponse
+	 */
+    public function store(Request $request, Building $building)
     {
-        dd($request->all());
+	    if($request->get('comment') === null || $request->get('comment') === "") {
+	    	return new JsonResponse("Missing Comment", 400);
+	    }
+
+	    $comment = new Comment([
+	    	'user_id' => Auth::id(),
+		    'building_id' => $building->id,
+		    'description' => $request->get('comment'),
+	    ]);
+
+	    $result = $comment->save();
+
+	    return new JsonResponse($result);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
+	/**
+	 * @param Building $building
+	 *
+	 * @return JsonResponse
+	 */
+    public function show(Building $building)
     {
-        return new JsonResponse($comment);
+        return new JsonResponse($building->comments);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+	/**
+	 * @param Comment $comment
+	 *
+	 * @return JsonResponse
+	 */
     public function destroy(Comment $comment)
     {
 		return new JsonResponse(["isDeleted" => $comment->delete()]);
