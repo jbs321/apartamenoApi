@@ -59,6 +59,7 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 		Route::delete( "rating/{userRating}", "RatingController@destroy" );
 
 		Route::post( "comment", "CommentController@store" );
+		Route::delete( "comment/{comment}", "CommentController@delete" );
 	});
 } );
 

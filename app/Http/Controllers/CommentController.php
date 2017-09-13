@@ -33,6 +33,16 @@ class CommentController extends Controller
 	    return new JsonResponse($result);
     }
 
+	public function delete( Building $building, Comment $comment ) {
+		if($comment->user_id == Auth::id()) {
+			$result = $comment->delete();
+
+			return new JsonResponse($result);
+		}
+
+		return new JsonResponse(false);
+    }
+
 	/**
 	 * @param Building $building
 	 *
