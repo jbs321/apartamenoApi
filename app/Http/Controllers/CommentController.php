@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
 	/**
+	 * @param Building $building
+	 *
+	 * @return JsonResponse
+	 */
+	public function show(Building $building)
+	{
+		$comments = $building->comments()->orderBy('created_at', 'desc')->get();
+		return new JsonResponse($comments);
+	}
+
+
+	/**
 	 * @param Request $request
 	 * @param Building $building
 	 *
@@ -41,16 +53,6 @@ class CommentController extends Controller
 		}
 
 		return new JsonResponse(false);
-    }
-
-	/**
-	 * @param Building $building
-	 *
-	 * @return JsonResponse
-	 */
-    public function show(Building $building)
-    {
-        return new JsonResponse($building->comments);
     }
 
 	/**

@@ -3,18 +3,19 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class TechnicalException extends Exception
 {
-    /**
-     * Create a new authentication exception.
-     *
-     * @param  string  $message
-     * @param  int $code
-     * @return void
-     */
-    public function __construct($message = 'Technical Exception')
-    {
-        parent::__construct($message);
-    }
+	public function report() {
+		//Here you can send an email to report a bug
+	}
+
+
+	public function render( $request ) {
+		return new JsonResponse( [
+			"code"    => 500,
+			"message" => "Technical Error",
+		], 500 );
+	}
 }

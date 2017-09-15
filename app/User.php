@@ -6,8 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
 	use Notifiable, HasApiTokens;
 
 	/**
@@ -16,7 +15,14 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $fillable = [
-		'first_name', 'last_name', 'email', 'password', 'address', 'unit_number', 'phone_number', 'avatar',
+		'first_name',
+		'last_name',
+		'email',
+		'password',
+		'address',
+		'unit_number',
+		'phone_number',
+		'avatar',
 	];
 
 	/**
@@ -25,11 +31,15 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $hidden = [
-		'password', 'remember_token',
+		'password',
+		'remember_token',
 	];
 
-	public function roles()
-	{
-		return $this->belongsToMany('App\Role')->withTimestamps();
+	public function roles() {
+		return $this->belongsToMany( 'App\Role' )->withTimestamps();
+	}
+
+	public function building() {
+		return $this->hasOne( 'App\Building' );
 	}
 }

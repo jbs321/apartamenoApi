@@ -17,6 +17,9 @@ class CreateCommentsTable extends Migration
             $table->increments('id')->unique();
             $table->integer('user_id');
             $table->integer('building_id');
+            $table->boolean('private')->default(false);
+            $table->boolean('spam')->default(false);
+            $table->boolean('reportedSpam')->default(false);
             $table->string('description');
             $table->timestamps();
         });

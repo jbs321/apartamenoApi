@@ -6,19 +6,21 @@ use App\Building;
 use App\Exceptions\NotFoundException;
 use Google\Facades\Google;
 use Google\Types\GooglePlacesResponse;
+use Google\Types\GooglePlacesResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller {
 
 	public function findAndCreateBuilding( $query ) {
+
 		$result = Google::places()->findAddressByQuery( $query );
 
 		if ( $result->getStatus() !== GooglePlacesResponse::STATUS_TYPE__OK ) {
 			throw new NotFoundException();
 		}
 
-		/** @var GoogleResult $firstResult */
+		/** @var GooglePlacesResult $firstResult */
 		$firstResult = $result->getResults()->first();
 
 		$building = Building::where( [
@@ -29,21 +31,20 @@ class SearchController extends Controller {
 			$building->update( [
 				'user_id' => is_null( Auth::id() ) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
 				'address' => $firstResult->getFormattedAddress(),
+				'lat'     => $firstResult->getLat(),
+				'lng'     => $firstResult->getLng(),
 			] );
 		} else {
 			$building = new Building( [
 				'user_id'         => is_null( Auth::id() ) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
 				'address'         => $firstResult->getFormattedAddress(),
 				'google_place_id' => $firstResult->getPlaceId(),
+				'lat'             => $firstResult->getLat(),
+				'lng'             => $firstResult->getLng(),
 			] );
 		}
 
-		/** @var Building $building */
-		$building = Building::firstOrCreate( [
-			'google_place_id' => $firstResult->getPlaceId(),
-			'user_id'         => is_null( Auth::id() ) ? \UsersTableSeeder::VISITOR_ID : Auth::id(),
-			'address'         => $firstResult->getFormattedAddress(),
-		] );
+		$building->save();
 
 		$building->comments;
 		$ratings = $building->findRatingsByBuilding();

@@ -45,9 +45,6 @@ Route::group( [ "prefix" => "building/{building}" ], function () {
 	Route::get( "comment", "CommentController@show" );
 });
 
-
-
-
 Route::group( [ "middleware" => "auth:api" ], function () {
 	Route::post( 'getProfile', function () {
 		return Auth::user();
@@ -60,9 +57,11 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 
 		Route::post( "comment", "CommentController@store" );
 		Route::delete( "comment/{comment}", "CommentController@delete" );
+
+		Route::get('feed', 'FeedController@show');
+		Route::post('feed', 'FeedController@store');
 	});
 } );
-
 
 Route::post('register', 'FormController@register');
 Route::post('login', 'FormController@login');

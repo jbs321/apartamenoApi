@@ -67,25 +67,11 @@ class Handler extends ExceptionHandler
 			    ], 400);
 	    }
 
-	    if($exception instanceof NotFoundException) {
-		    return new JsonResponse([
-			    "code" => 404,
-		    	"message" => "<a href='mailto:jacob@balabnaov.ca'>admin</a>"], 404);
-	    }
-
 	    if($exception instanceof MethodNotAllowedHttpException) {
 		    return new JsonResponse([
 			    "code" => 405,
 			    "message" => "Method not allowed"
 		    ], 405);
-	    }
-
-	    //500+
-	    if($exception instanceof TechnicalException) {
-		    new JsonResponse([
-		    	"code"    => 500,
-		    	"message" => "Technical problem, Please contact the <a href='mailto:jacob@balabnaov.ca'>admin</a>"
-		    ], 500);
 	    }
 
 	    return parent::render($request, $exception);

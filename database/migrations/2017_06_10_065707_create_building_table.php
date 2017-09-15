@@ -16,6 +16,8 @@ class CreateBuildingTable extends Migration
         Schema::create('buildings', function (Blueprint $table) {
             $table->increments('id')->unique();
             $table->string('google_place_id', 200)->unique()->nullable();
+	        $table->decimal('lng', 10, 7)->nullable();
+	        $table->decimal('lat', 10, 7)->nullable();
 	        $table->integer('user_id');
             $table->string('address');
 	        $table->softDeletes();
