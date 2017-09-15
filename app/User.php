@@ -42,4 +42,8 @@ class User extends Authenticatable {
 	public function building() {
 		return $this->hasOne( 'App\Building' );
 	}
+
+	public function registeredBuilding(  ) {
+		return $this->hasOne('App\RegisteredUser');
+	}
 }

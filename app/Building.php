@@ -84,6 +84,10 @@ class Building extends Model {
 		return $this->hasMany('App\Feed');
 	}
 
+	public function registeredUsers(  ) {
+		return $this->hasMany('App\RegisteredUser');
+	}
+
 	/**
 	 * The attributes that should be mutated to dates.
 	 *
