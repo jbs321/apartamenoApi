@@ -8,36 +8,36 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class FeedController extends Controller
-{
-    public function store(Building $building, Request $request)
-    {
-	    $request->validate(['content' => 'required|string']);
+class FeedController extends Controller {
+	public function store( Building $building, Request $request ) {
+		$request->validate( [ 'content' => 'required|string' ] );
 
-        $feed = new Feed([
-        	'user_id' => Auth::id(),
-	        'building_id' => $building->id,
-	        'content'  => $request->get('content'),
-        ]);
+		$feed = new Feed( [
+			'user_id'     => Auth::id(),
+			'building_id' => $building->id,
+			'content'     => $request->get( 'content' ),
+		] );
 
-	    $result = $feed->save();
+		$result = $feed->save();
 
-	    return new JsonResponse($result);
-    }
+		return new JsonResponse( $result );
+	}
 
-    public function show(Building $building)
-    {
-	    $feeds = $building->feeds()->orderBy('created_at', 'desc')->get();
-	    return new JsonResponse($feeds);
-    }
+	public function show( Building $building ) {
+		$feeds = $building->feeds()->orderBy( 'created_at', 'desc' )->get();
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
+		return new JsonResponse( $feeds );
+	}
 
-    public function destroy($id)
-    {
-        //
-    }
+	public function update( Request $request, Feed $feed ) {
+		$result = $feed->update( $request->all() );
+
+		return new JsonResponse( $result );
+	}
+
+	public function destroy( Feed $feed ) {
+		$result = $feed->delete();
+
+		return new JsonResponse( $result );
+	}
 }

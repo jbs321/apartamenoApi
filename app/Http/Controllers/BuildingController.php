@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Building;
 use App\Comment;
+use App\Feed;
 use App\UserRating;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -107,17 +108,6 @@ class BuildingController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -163,8 +153,20 @@ class BuildingController extends Controller
 		return "https://maps.googleapis.com/maps/api/streetview?location={$address}&key={$apiKey}&size={$size}";
     }
 
+	public function showFeeds( Building $building ) {
+		$building->feeds = $building->feeds->map(function(Feed $feed){
+			$feed->user;
+			return $feed;
+		});
 
-	public function getAddress($address  ) {
-		dd($address);
-    }
+		return new JsonResponse($building->feeds);
+	}
+
+	public function showComments( Building $building ) {
+		return new JsonResponse($building->comments);
+	}
+
+	public function showRatings( Building $building ) {
+		return new JsonResponse($building->userRatings);
+	}
 }

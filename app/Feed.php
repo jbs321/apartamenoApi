@@ -10,10 +10,10 @@ class Feed extends Model {
 	protected $fillable = ['user_id', 'building_id', 'content'];
 
 	public function building() {
-		return $this->hasOne( 'App/Building' );
+		return $this->hasOne( 'App\Building' );
 	}
 
 	public function user() {
-		return $this->hasOne( 'App/User' );
+		return $this->hasOne( 'App\User', 'id', 'user_id' );
 	}
 }

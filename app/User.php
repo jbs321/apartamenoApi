@@ -39,11 +39,7 @@ class User extends Authenticatable {
 		return $this->belongsToMany( 'App\Role' )->withTimestamps();
 	}
 
-	public function building() {
-		return $this->hasOne( 'App\Building' );
-	}
-
-	public function registeredBuilding(  ) {
-		return $this->hasOne('App\RegisteredUser');
+	public function building(  ) {
+		return $this->hasManyThrough('App\Building', 'App\RegisteredUser', 'user_id', 'building_id');
 	}
 }
