@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use App\Http\Middleware\UserProtectedMiddleware;
 
 //TODO::add cors support only for dedicated clients
 Route::get( "street-view/{address}/{width?}/{height?}", "GoogleController@showStreetViewImage" );
@@ -29,6 +30,8 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 		Route::get('ratings', 'BuildingController@showRatings');
 
 		Route::post('feed', 'FeedController@store');
+
+		Route::delete('feed', 'FeedController@destroy')->middleware([UserProtectedMiddleware::class]);
 
 		Route::resource( "rating", "RatingController" );
 		Route::resource( "comment", "CommentController" );
