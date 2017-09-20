@@ -25,7 +25,7 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 	Route::post( 'regBuilding', 'UserController@getRegisteredBuilding');
 
 	Route::group( [ "prefix" => "building/{building}" ], function () {
-		Route::get('feeds', 'BuildingController@showFeeds');
+		Route::get('feeds/{pagination?}', 'BuildingController@showFeeds');
 		Route::get('comments', 'BuildingController@showComments');
 		Route::get('ratings', 'BuildingController@showRatings');
 
@@ -38,4 +38,4 @@ Route::group( [ "middleware" => "auth:api" ], function () {
 	});
 } );
 
-//Route::get('test/{building}', 'BuildingController@showFeeds');
+Route::get('test/{building}/{pagination?}', 'BuildingController@showFeeds');

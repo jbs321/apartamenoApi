@@ -153,13 +153,21 @@ class BuildingController extends Controller
 		return "https://maps.googleapis.com/maps/api/streetview?location={$address}&key={$apiKey}&size={$size}";
     }
 
-	public function showFeeds( Building $building ) {
-		$building->feeds = $building->feeds->map(function(Feed $feed){
+	public function showFeeds( Building $building, $pagination = null ) {
+		$feeds = $building->feeds();
+
+		if($pagination) {
+			$feeds = $feeds->paginate($pagination);
+		} else {
+			$feeds = $feeds->get();
+		}
+
+		$feeds->map(function(Feed $feed){
 			$feed->user;
 			return $feed;
 		});
 
-		return new JsonResponse($building->feeds);
+		return new JsonResponse($feeds);
 	}
 
 	public function showComments( Building $building ) {
