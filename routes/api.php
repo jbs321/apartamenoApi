@@ -12,6 +12,7 @@ Route::get( "search/query/firstorfail/{query}", "SearchController@findAndCreateB
 
 Route::post('login', 'FormController@login');
 Route::post('register', 'FormController@register');
+Route::post('register/validate', 'FormController@validateMe');
 
 Route::resource( "buildings", "BuildingController" );
 

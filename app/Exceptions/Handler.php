@@ -49,30 +49,30 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-	    //400+
-	    if($exception instanceof \InvalidArgumentException) {
-		    return new JsonResponse(
-			    [
-				    "code" => 400,
-				    "message" => $exception->getMessage()
-			    ], 400);
-	    }
-
-	    //400+
-	    if($exception instanceof ValidationException) {
-		    return new JsonResponse(
-			    [
-				    "code" => 400,
-				    "message" => $exception->validator->errors()
-			    ], 400);
-	    }
-
-	    if($exception instanceof MethodNotAllowedHttpException) {
-		    return new JsonResponse([
-			    "code" => 405,
-			    "message" => "Method not allowed"
-		    ], 405);
-	    }
+//	    //400+
+//	    if($exception instanceof \InvalidArgumentException) {
+//		    return new JsonResponse(
+//			    [
+//				    "code" => 400,
+//				    "message" => $exception->getMessage()
+//			    ], 400);
+//	    }
+//
+//	    //400+
+//	    if($exception instanceof ValidationException) {
+//		    return new JsonResponse(
+//			    [
+//				    "code" => 400,
+//				    "message" => $exception->validator->errors()
+//			    ], 400);
+//	    }
+//
+//	    if($exception instanceof MethodNotAllowedHttpException) {
+//		    return new JsonResponse([
+//			    "code" => 405,
+//			    "message" => "Method not allowed"
+//		    ], 405);
+//	    }
 
 	    return parent::render($request, $exception);
     }

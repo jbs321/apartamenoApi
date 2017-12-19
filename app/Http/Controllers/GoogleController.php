@@ -26,13 +26,11 @@ class GoogleController extends Controller {
 
 	public function searchPlace( $query ) {
 
-		Log::error("XXXXXXXX: $query");
-
 		/** @var GooglePlacesResponse $result */
 		$result = Google::places()->findAddressByQuery( $query );
 
 		if ( ! $result->isFound() ) {
-			throw new NotFoundException();
+			throw new NotFoundException($query);
 		}
 
 		return $result->toArray();

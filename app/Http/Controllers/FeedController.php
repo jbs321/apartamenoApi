@@ -7,10 +7,13 @@ use App\Feed;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class FeedController extends Controller {
-	public function store( Building $building, Request $request ) {
-		$request->validate( [ 'content' => 'required|string' ] );
+
+	public function store( Request $request, Building $building ) {
+
+        Validator::make($request->all(), [ 'content' => 'required|string' ]);
 
 		$feed = new Feed( [
 			'user_id'     => Auth::id(),
